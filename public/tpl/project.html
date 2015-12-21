@@ -1,0 +1,89 @@
+<section class="content-header">
+	<h1>
+		我的项目 <small>项目列表</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+		<li class="active">我的项目</li>
+	</ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+<div class="tab-content">
+	<div role="tabpanel" tcid="t1" class="tab-pane active" id="home">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>名称</th>
+					<th>创建时间</th>
+					<th class="dropdown">
+					<button class="btn-transparent dropdown-toggle btn-dropdown" type="button"
+						data-toggle="dropdown">
+						状态 <span class="caret"></span> 
+					</button>
+					<ul class="dropdown-menu">
+						<li><a ng-click="created_filter('all')">全部</a></li>
+						<li><a ng-click="created_filter('open')">报名中</a></li>
+						<li><a ng-click="created_filter('close')">报名关闭</a></li>
+					</ul>
+					</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="v in projects">
+					<td><a href="/project/{{v.id}}" target="_blank" ng-bind="v.name"></a></td>
+					<td ng-bind="v.created_at|limitTo:10"></td>
+					<td><span class="label label-success" ng-if="v.is_open==1">报名中</span><span class="label label-danger" ng-if="v.is_open==0">报名关闭</span></td>
+					<td><a href="#project/{{v.id}}">修改</a> | <a href="#projectmanager/{{v.id}}">查看参加者</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div role="tabpanel" tcid="t2" class="tab-pane" id="profile">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>名称</th>
+					<th>创建时间</th>
+					<th class="dropdown">
+					<button class="btn-transparent dropdown-toggle btn-dropdown" type="button"
+						data-toggle="dropdown">
+						状态 <span class="caret"></span> 
+					</button>
+					<ul class="dropdown-menu">
+						<li><a ng-click="joined_filter('all')">全部</a></li>
+						<li><a ng-click="joined_filter('checking')">报名审核中</a></li>
+						<li><a ng-click="joined_filter('success')">参加成功</a></li>
+						<li><a ng-click="joined_filter('failed')">参加失败</a></li>
+					</ul>
+					</th>
+					<th>参加形式</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="v in projects">
+					<td ng-bind="v.name"></td>
+					<td ng-bind="v.created_at|limitTo:10"></td>
+					<td><span class="label label-default" ng-if="v.joinstatus==1">报名审核中</span><span class="label label-success" ng-if="v.joinstatus==2">参加成功</span><span class="label label-danger" ng-if="v.joinstatus==3">参加失败</span></td>
+					<td><span class="label label-warning" ng-if="v.type=='solo'">个人</span><span class="label label-info" ng-if="v.type=='team'">团队</span></td>
+					<td><a href="/project/{{v.id}}" target="_blank">查看</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<script>
+	$('#myTab a').click(function(e) {
+		e.preventDefault();
+		var p = $(this).attr("tabid");
+		$("[tcid=" + p + "]").siblings().removeClass("active");
+		$("[tcid=" + p + "]").addClass("active");
+	})
+</script>
+
+</section>
+<!-- /.content -->
